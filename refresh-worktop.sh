@@ -1,5 +1,5 @@
 #!/bin/bash 
-sudo podman build . --tag=workspace-image
+sudo podman build . --tag=worktop-image
 
 USER="tadgh"
 
@@ -20,4 +20,4 @@ for key in id_ed25519 id_rsa; do
   fi
 done
 
-sudo podman run -d --name worktop-container "${mounts[@]}" --publish 0.0.0.0:22222:22/tcp --hostname worktop --replace workspace-image
+sudo podman run -d --name worktop-container "${mounts[@]}" --publish 0.0.0.0:22222:22/tcp --hostname worktop --replace worktop-image
