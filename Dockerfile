@@ -10,6 +10,7 @@ ENV LC_CTYPE=C.UTF-8
 
 RUN apk add --no-cache \
   zsh \
+  zsh-vcs \
   musl-locales musl-locales-lang \
   neovim \
   sudo \
@@ -25,7 +26,8 @@ RUN apk add --no-cache \
   nodejs \
   npm \
   podman \
-  python3 
+  python3 \
+  sqlite
 
 RUN addgroup ${GROUP} --gid ${GID}
 RUN adduser -D -u ${UID} -G ${GROUP} -s /bin/zsh ${USER}
