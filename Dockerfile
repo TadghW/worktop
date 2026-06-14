@@ -63,7 +63,7 @@ USER ${USER}
 
 RUN mkdir ~/dotfiles ~/.config
 COPY --chown=${USER}:${GROUP} ./dotfiles /home/${USER}/dotfiles
-RUN cmhod +x ~/dotfiles/symlink-config.sh
+RUN chmod +x ~/dotfiles/symlink-config.sh
 RUN ./symlink-config.sh
 
 USER root
