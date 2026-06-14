@@ -49,7 +49,7 @@ RUN printf '%s\n' \
   >> /etc/ssh/sshd_config
 
 RUN printf '%s\n' \
-  'Welcome to the Worktop! Good luck today!' \
+  'Attached to worktop, good luck today!' \
   > /etc/motd
 
 RUN mkdir -p /home/${USER}/.ssh
@@ -64,7 +64,7 @@ USER ${USER}
 RUN mkdir ~/dotfiles ~/.config
 COPY --chown=${USER}:${GROUP} ./dotfiles /home/${USER}/dotfiles
 RUN chmod +x ~/dotfiles/symlink-config.sh
-RUN ./symlink-config.sh
+RUN ~/dotfiles/symlink-config.sh
 
 USER root
 
