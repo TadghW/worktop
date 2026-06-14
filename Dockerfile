@@ -27,7 +27,12 @@ RUN apk add --no-cache \
   npm \
   podman \
   python3 \
-  sqlite
+  sqlite \
+  build-base \
+  cmake \ 
+  ninja \ 
+  gdb \
+  clang-extra-tools
 
 RUN addgroup ${GROUP} --gid ${GID}
 RUN adduser -D -u ${UID} -G ${GROUP} -s /bin/zsh ${USER}
