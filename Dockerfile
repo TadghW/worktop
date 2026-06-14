@@ -4,15 +4,12 @@ ARG UID=1000
 ARG GID=1000
 ARG USER=tadgh
 ARG GROUP=tadgh
-ARG USER_GIT_EMAIL=tadgh@tadghwagstaff.com
-ARG USER_GIT_NAME=Tadgh
-ARG USER_GIT_DEFAULT_BRANCH=main
 
 ENV LANG=C.UTF-8
 ENV LC_CTYPE=C.UTF-8
 
 RUN apk add --no-cache \
-  bash \
+  zsh \
   musl-locales musl-locales-lang \
   neovim \
   sudo \
@@ -31,7 +28,7 @@ RUN apk add --no-cache \
   python3 
 
 RUN addgroup ${GROUP} --gid ${GID}
-RUN adduser -D -u ${UID} -G ${GROUP} -s /bin/bash ${USER}
+RUN adduser -D -u ${UID} -G ${GROUP} -s /bin/zsh ${USER}
 # adduser -D (non-interactive) creates a passwordless account
 # passwordless accounts are considered "locked" (see /etc/shadow)
 # OpenSSH doesn't consider a locked account a valid target for key auth
@@ -52,7 +49,7 @@ RUN printf '%s\n' \
   >> /etc/ssh/sshd_config
 
 RUN printf '%s\n' \
-  'Welcome to the Workspace! Good luck today!' \
+  'Welcome to the Worktop! Good luck today!' \
   > /etc/motd
 
 RUN mkdir -p /home/${USER}/.ssh
@@ -64,20 +61,10 @@ RUN chmod 600 /home/${USER}/.ssh/authorized_keys
 
 USER ${USER}
 
-RUN curl -s https://ohmyposh.dev/install.sh | bash -s
-
 RUN mkdir ~/dotfiles ~/.config
 COPY --chown=${USER}:${GROUP} ./dotfiles /home/${USER}/dotfiles
-
-RUN cp ~/dotfiles/.bashrc-auto-tmux ~/.bashrc
-RUN cp ~/dotfiles/.bash_profile ~/.bash_profile
-
-RUN cp -r ~/dotfiles/nvim ~/dotfiles/tmux ~/.config
-RUN git clone --quiet -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
-
-RUN git config --global user.email ${USER_GIT_EMAIL}
-RUN git config --global user.name ${USER_GIT_NAME}
-RUN git config --global init.defaultBranch ${USER_GIT_DEFAULT_BRANCH}
+RUN cmhod +x ~/dotfiles/symlink-config.sh
+RUN ./symlink-config.sh
 
 USER root
 
